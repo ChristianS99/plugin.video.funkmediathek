@@ -6,24 +6,20 @@ import xbmcplugin
 import resources.lib.jsonparser as jsonParser
 import resources.lib.kalturaparser as kalturaParser
 
-base = 'https://www.funk.net'
+base = 'https://www.funk.net/api/v4.0/'
 
 translation = xbmcaddon.Addon().getLocalizedString
 
 #squashShows = xbmcaddon.Addon().getSetting('squashShows') == 'true'
 #preferOV = xbmcaddon.Addon().getSetting('preferOV') == 'true'
-skipToSeries = xbmcaddon.Addon().getSetting('skipToSeries') == 'true'
+#skipToSeries = xbmcaddon.Addon().getSetting('skipToSeries') == 'true'
 
 def main():
-	if skipToSeries:
-		params['url'] = 'https://api.funk.net/v1.0/content/series/?page=0&size=50'
-		return listDir()
-	else:
-		l = []
-		l.append({'_name':translation(30503), 'mode':'listDir', '_type': 'dir', 'url':'https://api.funk.net/v1.0/content/formats/?page=0&size=50'})
-		l.append({'_name':translation(30504),  'mode':'listDir',   '_type': 'dir', 'url':'https://api.funk.net/v1.0/content/series/?page=0&size=50'})
-		return l
-	
+	l = []
+	l.append({'_name': 'Channels', 'mode':'listDir', '_type': 'dir', 'url': base + 'channels/?page=0&size=50'})
+	l.append({'_name': 'Playlists', 'mode':'listDir', '_type': 'dir', 'url': base + 'playlists/?page=0&size=50'})
+	return l
+
 def listDir():
 	return jsonParser.parse(params['url'])
 	
